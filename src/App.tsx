@@ -3,6 +3,8 @@ import ImageCard from "./components/ImageCard";
 import ImageModal from "./components/ImageModal";
 import { useFavorites } from "./components/Filters";
 import Header from "./components/Header";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Image {
   id: string;
@@ -18,7 +20,7 @@ const App: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [filterText, setFilterText] = useState<string>("");
   const [page, setPage] = useState<number>(1);
-  const [showFavorites, setShowFavorites] = useState<boolean>(false); 
+  const [showFavorites, setShowFavorites] = useState<boolean>(false);
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const fetchImages = async (page: number) => {
@@ -41,6 +43,17 @@ const App: React.FC = () => {
     fetchImages(page);
   }, [page]);
 
+  const handleFavoriteToggle = (imageId: string) => {
+    const isCurrentlyFavorite = isFavorite(imageId);
+    toggleFavorite(imageId);
+
+    if (isCurrentlyFavorite) {
+      toast.info("Imagem desfavoritada!");
+    } else {
+      toast.success("Imagem adicionada aos favoritos!");
+    }
+  };
+
   const filteredImages = images.filter((image) => {
     const matchesAuthor = image.author.toLowerCase().includes(filterText.toLowerCase());
     const matchesFavorites = !showFavorites || isFavorite(image.id);
@@ -54,29 +67,29 @@ const App: React.FC = () => {
   const noFavoriteImages = showFavorites && filteredImages.length === 0;
 
   if (loading && page === 1) {
-    return <div className="text-center text-lg">Carregando...</div>;
+    return <div className="text-center text-xl text-gray-500">Carregando...</div>;
   }
 
   return (
     <>
       <Header />
-      <main className="h-[100%] container mx-auto p-4">
-        <h1 className="text-2xl font-bold text-center mb-4">Galeria de Imagens</h1>
+      <main className="h-[100%] container mx-auto p-6 bg-gray-50">
+        <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Galeria de Imagens</h1>
 
-        <div className="mb-4 text-center">
+        <div className="mb-6 text-center">
           <input
             type="text"
             placeholder="Buscar por autor"
-            className="p-2 border rounded"
+            className="p-3 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={filterText}
             onChange={(e) => setFilterText(e.target.value)}
           />
         </div>
 
-        <div className="text-center mb-4">
+        <div className="text-center mb-6">
           <button
             onClick={() => setShowFavorites((prev) => !prev)}
-            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+            className="bg-teal-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-teal-600 transition-colors duration-200"
           >
             {showFavorites ? "Mostrar Todas" : "Mostrar Favoritos"}
           </button>
@@ -87,12 +100,12 @@ const App: React.FC = () => {
             Não há imagens favoritas.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredImages.map((image) => (
               <ImageCard
                 key={image.id}
                 {...image}
-                onFavoriteToggle={toggleFavorite}
+                onFavoriteToggle={() => handleFavoriteToggle(image.id)}
                 isFavorite={isFavorite(image.id)}
                 onClick={() => setSelectedImage(image)}
               />
@@ -101,10 +114,10 @@ const App: React.FC = () => {
         )}
 
         {!showFavorites && (
-          <div className="text-center mt-4">
+          <div className="text-center mt-6">
             <button
               onClick={loadMoreImages}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="bg-indigo-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-indigo-600 transition-colors duration-200"
             >
               {loading ? "Carregando..." : "Carregar Mais Imagens"}
             </button>
@@ -117,6 +130,8 @@ const App: React.FC = () => {
           onClose={() => setSelectedImage(null)}
         />
       </main>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 };
