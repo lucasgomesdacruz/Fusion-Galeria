@@ -37,6 +37,8 @@
 
 - Botões para carregar mais imagens e alternar entre todas e favoritas.</br>
 
+ - Notificações Toastify para feedback visual ao marcar/desmarcar favoritos ou ao buscar imagens.</br>
+
 ## 🕹️ Funcionalidades
 
 - **Apresentação de Habilidades**: Exibição das principais ferramentas e tecnologias que utilizo no desenvolvimento de interfaces modernas e responsivas.</br>
