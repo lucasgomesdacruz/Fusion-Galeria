@@ -73,7 +73,7 @@ const App: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="h-[100%] container mx-auto p-6 bg-gray-50">
+      <main className="h-[100%] container mx-auto p-6 bg-blue-100">
         <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Galeria de Imagens</h1>
 
         <div className="mb-6 text-center">

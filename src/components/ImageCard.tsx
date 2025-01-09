@@ -17,13 +17,15 @@ const ImageCard: React.FC<ImageProps> = ({
   isFavorite,
   onClick,
 }) => (
-  <div className="border rounded-lg overflow-hidden relative">
-    <img
-      src={download_url}
-      alt={author}
-      className="w-full h-48 object-cover cursor-pointer"
-      onClick={onClick}
-    />
+  <div className="bg-slate-50 border rounded-lg overflow-hidden relative group">
+    <div className="overflow-hidden">
+      <img
+        src={download_url}
+        alt={author}
+        className="w-full h-48 object-cover cursor-pointer transform transition-transform duration-300 group-hover:scale-110"
+        onClick={onClick}
+      />
+    </div>
     <div className="p-2 text-center">
       <p className="text-sm text-gray-700">Autor: {author}</p>
       <button
