@@ -78,6 +78,8 @@
 
 #### Fetch API - Para buscar imagens remotamente.
 
+#### Toastify: Para notificações.
+
 # 🔧 Como Executar o Projeto
 
 #### 1- Clone o repositório para sua máquina local: git clone https://github.com/lucasgomesdacruz/Fusion-Galeria.git
